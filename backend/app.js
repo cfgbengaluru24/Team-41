@@ -7,7 +7,6 @@ const studentRoutes = require('./routes/studentRoutes');
 const donorRoutes = require('./routes/money_donor')
 const storeManagerRoutes = require('./routes/storeManagerRoutes');
 const clothDonorRoutes = require('./routes/clothDonorRoutes');
-const mailRoutes = require('./routes/mail');
 
 app.use(express.json());
 app.use(cors());
@@ -22,7 +21,6 @@ app.use('/api/students', studentRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/v1/storeManager',storeManagerRoutes);
 app.use('/api/v1/clothDonor',clothDonorRoutes);
-app.use('/api/mail', mailRoutes);
 
 const start = async () => {
     try {

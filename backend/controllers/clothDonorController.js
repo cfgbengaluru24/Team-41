@@ -1,6 +1,7 @@
 const ClothesDonor = require('../models/clothes_doner.models');
 const Inventory = require('../models/inventory.models');
 const Clothes = require('../models/clothes.models');
+const sendEmail = require('../utils/sendEmail');
 
 // Register a donor
 const registerDonor = async (req, res) => {
@@ -29,7 +30,9 @@ const loginDonor = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const donor = await ClothesDonor.findOne({ email,password });
+    const donor = await ClothesDonor.findOne({ email,password }).populate({
+      path : "clothDetails",
+    });
     if (!donor) {
       return res.status(404).json({ message: 'Donor not found' });
     }
@@ -180,11 +183,27 @@ const resetMissHistory = async (req, res) => {
       res.status(500).json({ msg: 'Server error' });
   }
 };
+
+const updateClothStatus  = async(req,res)=>{
+  const {clothId} = req.body;
+
+  const cloth = await Clothes.findById(clothId);
+  if(!cloth){
+    res.status(404).json({message : "Cloth not found"});
+  }
+
+  cloth.donatedStatus= true;
+  await cloth.save();
+
+  res.status(200).json({message : "Successfully donated the cloth"});
+}
+
 module.exports = {
   registerDonor,
   loginDonor,
   registerClothes,
   getCitiesWithInventories,
   handleHistory,
-  resetMissHistory
+  resetMissHistory,
+  updateClothStatus,
 };

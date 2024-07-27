@@ -20,7 +20,6 @@ const clothes = new mongoose.Schema({
   donatedStatus: {
     type: Boolean,
     default: false,
-    required: true,
   },
   donatedOn: {
     type: Date,
@@ -35,5 +34,11 @@ const clothes = new mongoose.Schema({
       message: "{VALUE} is not supported",
     },
   },
+  description : {
+    type:String,
+    default : `${this.clothType} of size ${this.size} is available`,
+  }
 });
 module.exports = mongoose.model("clothes", clothes);
+
+//donated status has to be update by the store manager -> update the inventory info

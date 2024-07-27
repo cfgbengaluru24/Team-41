@@ -50,25 +50,30 @@ const loginStoreManager = async (req, res) => {
 
   try {
     // Find store manager by email
-    const storeManager = await StoreManager.findOne({ email });
+    const storeManager = await StoreManager.findOne({ email }).populate({
+      "path" : "inventory",
+      "populate" : {
+        "path" : "inventoryDetails",
+      }
+    });;
     if (!storeManager) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Compare password
-    const isMatch = await bcrypt.compare(password, storeManager.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
 
-    // Create JWT token
-    const token = jwt.sign({ id: storeManager._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-    res.status(200).json({ token, storeManager });
+    res.status(200).json({storeManager });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 };
+ //pending
+const NotifyUsers = async(req,res)=>{
+  const {storeManagerId} = req.body;
+  const storeManager = await StoreManager.findById(storeManagerId);
+
+
+
+}
 
 module.exports = {
   registerStoreManager,
