@@ -1,4 +1,5 @@
 import express from 'express';
+const mongoose = require('mongoose');
 import {
   getAllStudents,
   getStudentById,

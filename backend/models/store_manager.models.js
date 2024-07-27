@@ -14,8 +14,8 @@ const storeManagerSchema = new mongoose.Schema({
     required: true,
   },
   phone: {
-    type: Number,
-    required: true
+    type: String,
+    required: true,
   },
   address: {
     type: String,
