@@ -21,18 +21,26 @@ const clothes = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'inventory',
     },
-    donated:{
+    donatedStatus:{
         type: Boolean,
         default: false,
         required: true
     },
     donatedOn:{
         type: Date,
-        default: Date.now,
+        default: Date.now(),
         required: true
     },
     space:{
         type: Boolean,
+    },
+    clothType:{
+        type:String,
+        required:true,
+        enum:{
+            values:['jeans','saree','top','footwear','others'],
+            message:'{VALUE} is not supported'
+        }
     }
 });
 module.exports = mongoose.model('clothes', clothes);
