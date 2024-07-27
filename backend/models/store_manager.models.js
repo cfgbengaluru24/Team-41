@@ -29,9 +29,9 @@ const store_manager=new mongoose.Schema({
         type:String,
         required:true
     },
-    inventoryDetails:[{
+    inventoryDetails:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'inventory'
-    }]
+    }
 });
 export default mongoose.model('store_manager',store_manager);

@@ -24,10 +24,12 @@ const inventory = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "store_manager",
   },
+  
   clothesDetails: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "clothes",
+      maxcapacity: Number,
     },
   ],
 });

@@ -25,7 +25,15 @@ const clothes = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    donatedOn:{
+        type: Date,
+        default: Date.now,
+        required: true
+    },
+    space:{
+        type: Boolean,
+        required: true,
     }
-
 });
 module.exports = mongoose.model('clothes', clothes);
