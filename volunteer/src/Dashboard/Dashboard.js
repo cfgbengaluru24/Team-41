@@ -1,11 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Dashboard.css'; // For styling
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Dashboard.css"; // For styling
 
 const mockData = [
-  { volunteer_name: 'Alice Johnson', schools: [{ school_name: 'Springfield High' }, { school_name: 'Riverside Academy' }] },
-  { volunteer_name: 'Bob Smith', schools: [{ school_name: 'Greenwood School' }, { school_name: 'Mountainview School' }] },
-  { volunteer_name: 'Charlie Brown', schools: [{ school_name: 'Lincoln School' }, { school_name: 'Westside High' }] }
+  {
+    volunteer_name: "Alice Johnson",
+    schools: [
+      { school_name: "Springfield High" },
+      { school_name: "Riverside Academy" },
+    ],
+  },
+  {
+    volunteer_name: "Bob Smith",
+    schools: [
+      { school_name: "Greenwood School" },
+      { school_name: "Mountainview School" },
+    ],
+  },
+  {
+    volunteer_name: "Charlie Brown",
+    schools: [
+      { school_name: "Lincoln School" },
+      { school_name: "Westside High" },
+    ],
+  },
 ];
 
 const Dashboard = () => {
@@ -40,6 +58,6 @@ const Dashboard = () => {
       ))}
     </div>
   );
-}
+};
 
 export default Dashboard;
