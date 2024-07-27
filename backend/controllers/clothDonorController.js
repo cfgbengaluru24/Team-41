@@ -143,11 +143,37 @@ const registerClothes = async (req, res) => {
         res.status(500).json({ msg: 'Server error' });
     }
 };  
+//TEST THIS FUNCTION AND ALSO CALL THIS FUNCTION AT A RELEVANT CODE POINT 
+const resetMissHistory = async (req, res) => {
+  try {
+      const today = new Date();
+      const isResetDate = today.getDate() === 1 && [0, 4, 8].includes(today.getMonth());
 
+      if (!isResetDate) {
+          return res.status(400).json({ msg: 'Not the reset date' });
+      }
+
+      const inventories = await Inventory.find();
+      
+      inventories.forEach(inventory => {
+          inventory.missHistory.forEach(historyItem => {
+              historyItem.missedTimes = 0;
+          });
+      });
+
+      await Promise.all(inventories.map(inventory => inventory.save()));
+
+      res.status(200).json(inventories);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
 module.exports = {
   registerDonor,
   loginDonor,
   registerClothes,
   getCitiesWithInventories,
-  handleHistory
+  handleHistory,
+  resetMissHistory
 };
