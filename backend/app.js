@@ -21,6 +21,7 @@ app.use('/api/students', studentRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/v1/storeManager',storeManagerRoutes);
 app.use('/api/v1/clothDonor',clothDonorRoutes);
+app.use('/api/mail', mailRoutes);
 
 const start = async () => {
     try {
