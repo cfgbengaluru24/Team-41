@@ -12,7 +12,6 @@ const storeManagerSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 8
   },
   phone: {
     type: Number,

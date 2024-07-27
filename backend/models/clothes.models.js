@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+//description,size,age,donatedBy,donatedTo,donatedStatus,donatedOn,clothType
 const clothes = new mongoose.Schema({
   cloth: {
     type: String,

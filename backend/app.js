@@ -5,6 +5,7 @@ const connectDB = require('./db/connect');
 const studentRoutes = require('./routes/studentRoutes');
 const donorRoutes = require('./routes/money_donor')
 const storeManagerRoutes = require('./routes/storeManagerRoutes');
+const clothDonorRoutes = require('./routes/clothDonorRoutes');
 
 app.use(express.json());
 
@@ -17,6 +18,7 @@ const port = process.env.PORT || 5050;
 app.use('/api/students', studentRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/v1/storeManager',storeManagerRoutes);
+app.use('/api/v1/clothDonor',clothDonorRoutes);
 
 const start = async () => {
     try {
