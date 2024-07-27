@@ -1,4 +1,5 @@
 import Students from '../models/volunteerModel.js';
+import Volunteer from '../models/volunteer.models.js';
 
 export const getAllStudents = async (req, res) => {
   try {
@@ -77,5 +78,14 @@ export const deleteStudent = async (req, res) => {
     res.status(200).json({ message: 'Student deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+export const getAllVolunteers = async (req, res) => {
+  try {
+      const volunteers = await Volunteer.find();
+      res.status(200).json(volunteers);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
   }
 };
