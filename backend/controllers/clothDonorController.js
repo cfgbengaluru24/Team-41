@@ -47,11 +47,17 @@ const registerClothes = async (req, res) => {
     const { donorId, inventoryId, clothType, description, size } = req.body;
   
     try {
+
+      const donor = await ClothesDonor.findById(donorId);
+      if(!donor){
+        res.status(404).json({ message: 'Donor not found' });
+      }
+
       const inventory = await Inventory.findById(inventoryId);
       if (!inventory) {
         return res.status(404).json({ message: 'Inventory not found' });
       }
-  
+
       const maxCapacityDetail = inventory.maxCapacityDetails.find(detail => detail.clothType === clothType);
       const currentInventoryCount = inventory.inventoryDetails.filter(detail => detail.clothType === clothType).length;
   
@@ -71,6 +77,8 @@ const registerClothes = async (req, res) => {
         inventory.notifications.push({ clothType, donorId, clothId: newCloth._id });
         await inventory.save();
         await newCloth.save();
+        donor.clothDetails = [...donor.clothDetails, newCloth._id];
+        await donor.save();
         await handleHistory();
         return res.status(400).json({ message: 'Inventory is full for this cloth type. You will be updated as soon as we have space.', newCloth });
       }
@@ -78,7 +86,10 @@ const registerClothes = async (req, res) => {
       // Update the donatedStatus to true as it can be assigned to the inventory
       newCloth.donatedStatus = true;
       await newCloth.save();
-  
+
+      donor.clothDetails = [...donor.clothDetails, newCloth._id];
+      await donor.save();
+
       inventory.inventoryDetails.push(newCloth._id);
       await inventory.save();
   
