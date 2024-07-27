@@ -7,6 +7,7 @@ const studentRoutes = require('./routes/studentRoutes');
 const donorRoutes = require('./routes/money_donor')
 const storeManagerRoutes = require('./routes/storeManagerRoutes');
 const clothDonorRoutes = require('./routes/clothDonorRoutes');
+const mailRoutes = require('./routes/mail');
 
 app.use(express.json());
 app.use(cors());
