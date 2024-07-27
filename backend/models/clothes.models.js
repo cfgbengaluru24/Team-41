@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+//description,size,age,donatedBy,donatedTo,donatedStatus,donatedOn,clothType
 const clothes = new mongoose.Schema({
-    cloth: {
+    description: {
         type: String,
         required: true
     },
@@ -11,7 +12,6 @@ const clothes = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true
     },
     donatedBy:{
         type:mongoose.Schema.Types.ObjectId,
@@ -30,9 +30,6 @@ const clothes = new mongoose.Schema({
         type: Date,
         default: Date.now(),
         required: true
-    },
-    space:{
-        type: Boolean,
     },
     clothType:{
         type:String,
