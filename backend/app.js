@@ -11,7 +11,7 @@ app.get('/', async (req, res) => {
     res.send('Project starter');
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 
 app.use('/api/students', studentRoutes);
 app.use('/api/donors', donorRoutes);

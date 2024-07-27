@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Define the student schema
 const studentSchema = new mongoose.Schema({
   fullName: {
     type: String,
@@ -20,8 +19,8 @@ const studentSchema = new mongoose.Schema({
   },
   isFunded: {
     type: Boolean,
-    required: true,
     default: false,
+    required: false,
   },
   state: {
     type: String,
@@ -29,40 +28,36 @@ const studentSchema = new mongoose.Schema({
   },
   enrolledBy: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Donor',
-    required: true
+    ref: 'Donors',
   }],
-  enrolledFrom: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
   fundedFrom: {
     type: Date,
   },
   gender: {
     type: String,
     required: true,
-    enum: ['Male', 'Female', 'Other']
   },
   indexNumber: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   }
 });
 
+// Middleware to calculate indexNumber before saving
 studentSchema.pre('save', function (next) {
   const student = this;
   const currentDate = new Date();
-  const dateDifference = (currentDate - student.enrolledFrom) / (1000 * 60 * 60 * 24); 
-  const incomeWeight = 1 / student.annualIncome; 
-  const dateWeight = dateDifference; 
+  const daysEnrolled = (currentDate - new Date(student.fundedFrom)) / (1000 * 60 * 60 * 24);
+
+  // Calculate weights for indexNumber
+  const dateWeight = daysEnrolled;
+  const incomeWeight = 1 / student.annualIncome;
+
   student.indexNumber = dateWeight + incomeWeight;
   next();
 });
 
-studentSchema.index({ gender: 1, indexNumber: -1 });
-
-const Students = mongoose.model("Students", studentSchema);
+const Students = mongoose.model('Students', studentSchema);
 
 module.exports = Students;
