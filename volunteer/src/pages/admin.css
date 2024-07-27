@@ -1,71 +1,20 @@
-.profile-page {
-    padding: 20px;
-    background-color: #f0f0f0;
-}
-
-.profile-details {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.detail-item {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    flex: 1;
-    margin: 0 10px;
-}
-
-.detail-item div {
-    display: flex;
+.Volunteers,.Donors,.Inventory{
+    margin-bottom: 30px;
+    padding: 50px;
+    width: 480px;
+    font-size: xx-large;
     align-items: center;
-    justify-content: center;
+    
 }
-
-.detail-item .first-span {
-    font-size: 1.5em;
-    margin-left: 10px;
-}
-
-.detail-item .second-span {
-    margin-top: 10px;
-    display: block;
-    font-size: 1em;
-    color: #888;
-}
-
-.donor-list {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.donor-list h2 {
-    margin-bottom: 20px;
-    font-size: 1.5em;
-}
-
-.donor-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.donor-list .donor-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.donor-list .donor-item:last-child {
-    border-bottom: none;
-}
-
-.donor-list .donor-item span {
-    flex: 1;
+.head1{
     text-align: center;
+    font-size: 85px;
+    margin-top: 5%;
+    font-weight: 800;
+}
+.head2{
+    margin-top: 3%;
+    text-align: center;
+    font-size: 50px;
+    font-weight:400;
 }

@@ -63,7 +63,9 @@ const registerClothes = async (req, res) => {
 
       const maxCapacityDetail = inventory.maxCapacityDetails.find(detail => detail.clothType === clothType);
       const currentInventoryCount = inventory.inventoryDetails.filter(detail => detail.clothType === clothType).length;
-  
+      console.log(maxCapacityDetail);
+      console.log(currentInventoryCount);
+
       // Create the new cloth with provided details
       const newCloth = new Clothes({
         description,
