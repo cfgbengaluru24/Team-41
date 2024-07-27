@@ -3,7 +3,7 @@ const Inventory = require('../models/inventory.models');
 
 // Registration function
 const registerStoreManager = async (req, res) => {
-  const { name, email, password, phone, address, city, state, inventoryName, inventoryPhone, inventoryCity, inventoryState, inventoryAddress, maxCapacityDetails } = req.body;
+  const { name, email, password, phone, address, city, state, inventoryPhone, inventoryCity, inventoryState,maxCapacityDetails } = req.body;
 
   try {
     // Check if email already exists
@@ -24,7 +24,6 @@ const registerStoreManager = async (req, res) => {
     });
 
     const inventory = new Inventory({
-      name: inventoryName,
       phone: inventoryPhone,
       city: inventoryCity,
       state: inventoryState,
