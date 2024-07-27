@@ -4,7 +4,8 @@ const {
   getStudentById,
   createStudent,
   updateStudent,
-  deleteStudent
+  deleteStudent,
+  uploadStudentReport
 } = require('../controllers/studentController');
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.get('/:id', getStudentById);
 router.post('/', createStudent);
 router.put('/:id', updateStudent);
 router.delete('/:id', deleteStudent);
+router.put('/:id/report', uploadStudentReport);
 
 module.exports = router;

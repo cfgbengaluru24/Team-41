@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Donors = require('./money_donorModel');  
 
 const studentSchema = new mongoose.Schema({
   fullName: {
@@ -19,8 +20,7 @@ const studentSchema = new mongoose.Schema({
   },
   isFunded: {
     type: Boolean,
-    default: false,
-    required: false,
+    required: true,
   },
   state: {
     type: String,
@@ -28,10 +28,11 @@ const studentSchema = new mongoose.Schema({
   },
   enrolledBy: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Donors',
+    ref: 'Donors'
   }],
   fundedFrom: {
     type: Date,
+    required: true,
   },
   gender: {
     type: String,
@@ -41,16 +42,17 @@ const studentSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  report: {
+    type: String,  
   }
 });
 
-// Middleware to calculate indexNumber before saving
 studentSchema.pre('save', function (next) {
   const student = this;
   const currentDate = new Date();
   const daysEnrolled = (currentDate - new Date(student.fundedFrom)) / (1000 * 60 * 60 * 24);
 
-  // Calculate weights for indexNumber
   const dateWeight = daysEnrolled;
   const incomeWeight = 1 / student.annualIncome;
 
