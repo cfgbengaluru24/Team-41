@@ -1,0 +1,24 @@
+.edu-parent-info {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    
+}
+
+.edu-parent-info h2 {
+    margin-bottom: 10px;
+    font-size: 3em;
+}
+
+.edu-parent-info p {
+    margin: 5px 0;
+}
+.clothes-donated ul{
+    list-style: none;
+    padding: 0;
+}
+
+.clothes-donated h3{
+    font-size: 36px;
+}
+
