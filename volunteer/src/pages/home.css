@@ -1,0 +1,108 @@
+/* home.css */
+
+body, html, .home-container {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .spline-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    border: none;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    text-align: center;
+    padding: 4rem;
+  }
+  
+  .content h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+  
+  .content p {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+  }
+  
+  .feature-item {
+    max-width: 200px;
+  }
+  
+  .feature-item h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .feature-item p {
+    font-size: 1rem;
+  }
+  
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  .links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+  }
+  
+  .links a:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  .about {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .about h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about p {
+    font-size: 1.2rem;
+  }
+
+  .cover {
+    z-index: 10;
+    background-color: #FFB7F9;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    padding-top: 15px;
+    border-radius: 12px;
+    font-size: 18px;
+  }
