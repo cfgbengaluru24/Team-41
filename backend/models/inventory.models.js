@@ -56,7 +56,7 @@ const inventory = new mongoose.Schema({
         ref: 'clothes'
       }
     }
-  ]
+  ],
   missHistory:[{
     clothType: {
       type: String,

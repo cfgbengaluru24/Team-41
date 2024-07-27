@@ -1,64 +1,77 @@
-// register
-const Inventory = require("../models/inventory.models.js");
-const StoreManager = require("../models/store_manager.models.js");
+const StoreManager = require('../models/store_manager.models');
+const Inventory = require('../models/inventory.models');
 
-const register = async (req, res) => {
-  const { name, email, password, phone, address, city, state, inventory } =
-    req.body;
-  if (
-    !name ||
-    !email ||
-    !password ||
-    !phone ||
-    !address ||
-    !city ||
-    !state ||
-    !inventory
-  ) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
+// Registration function
+const registerStoreManager = async (req, res) => {
+  const { name, email, password, phone, address, city, state, inventoryName, inventoryPhone, inventoryCity, inventoryState, inventoryAddress, maxCapacityDetails } = req.body;
+
   try {
+    // Check if email already exists
     const existingManager = await StoreManager.findOne({ email });
     if (existingManager) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-    const existingInventory = await Inventory.findById(inventory);
-    if (!existingInventory) {
-      return res.status(400).json({ message: "Inventory does not exist" });
-    }
-    if (existingInventory.owner) {
-      return res
-        .status(400)
-        .json({
-          message: "This inventory is already managed by another manager",
-        });
+      return res.status(400).json({ message: 'Email already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newStoreManager = new StoreManager({
+    // Create store manager
+    const storeManager = new StoreManager({
       name,
       email,
-      password: hashedPassword,
+      password,
       phone,
       address,
       city,
-      state,
-      inventory,
+      state
     });
-    const savedManager = await newStoreManager.save();
-    existingInventory.owner = savedManager._id;
-    await existingInventory.save();
 
-    res.status(201).json({ message: "Store manager registered successfully" });
+    const inventory = new Inventory({
+      name: inventoryName,
+      phone: inventoryPhone,
+      city: inventoryCity,
+      state: inventoryState,
+      address: inventoryAddress,
+      owner: storeManager._id,
+      maxCapacityDetails
+    });
+
+    const savedInventory = await inventory.save();
+    storeManager.inventory = savedInventory._id;
+
+    // Save store manager
+    await storeManager.save();
+
+    res.status(201).json({ message: 'Store manager registered successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: 'Server error', error });
   }
 };
 
-//will update the history later ... need to test the function also
-const updateHistory = async (req, res) => {
+// Login function
+const loginStoreManager = async (req, res) => {
+  const { email, password } = req.body;
 
+  try {
+    // Find store manager by email
+    const storeManager = await StoreManager.findOne({ email });
+    if (!storeManager) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Compare password
+    const isMatch = await bcrypt.compare(password, storeManager.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Create JWT token
+    const token = jwt.sign({ id: storeManager._id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+    res.status(200).json({ token, storeManager });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
 };
 
-module.exports = { register };
+module.exports = {
+  registerStoreManager,
+  loginStoreManager
+};
