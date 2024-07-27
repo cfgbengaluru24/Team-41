@@ -41,6 +41,22 @@ const inventory = new mongoose.Schema({
       }
     }
   ],
+  notifications: [
+    {
+      clothType: {
+        type: String,
+        enum: ['jeans', 'saree', 'top', 'footwear', 'others'],
+      },
+      donorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'clothes_doner'
+      },
+      clothId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'clothes'
+      }
+    }
+  ]
   missHistory:[{
     clothType: {
       type: String,

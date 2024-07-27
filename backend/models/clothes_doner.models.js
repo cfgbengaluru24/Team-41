@@ -6,15 +6,15 @@ const clothes_doner = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique:true,
     },
     password: {
         type: String,
         required: true,
-        minlength: 8
     },
     phone: {
-        type: Number,
+        type: String,
         required: true
     },
     address: {
