@@ -70,8 +70,8 @@ const registerClothes = async (req, res) => {
         // Inventory is full for this cloth type, add to notifications
         inventory.notifications.push({ clothType, donorId, clothId: newCloth._id });
         await inventory.save();
-  
         await newCloth.save();
+        await handleHistory();
         return res.status(400).json({ message: 'Inventory is full for this cloth type. You will be updated as soon as we have space.', newCloth });
       }
   
@@ -105,11 +105,49 @@ const registerClothes = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  };  
+  };
+  const handleHistory = async (req, res) => {
+    try {
+        const { id } = req.body;
+        let { clothType } = req.body;
+
+        const validClothTypes = ['jeans', 'saree', 'top', 'footwear', 'others'];
+
+        if (!validClothTypes.includes(clothType)) {
+            clothType = 'others';
+        }
+
+        const inventory = await Inventory.findById(id);
+        if (!inventory) {
+            return res.status(404).json({ msg: 'Inventory item not found' });
+        }
+
+        let historyItem = inventory.missHistory.find(item => item.clothType === clothType);
+
+        if (historyItem) {
+            historyItem.missedTimes += 1;
+        } else {
+            historyItem = inventory.missHistory.find(item => item.clothType === 'others');
+            if (historyItem) {
+                historyItem.missedTimes += 1;
+            } else {
+                inventory.missHistory.push({ clothType: 'others', missedTimes: 1 });
+            }
+        }
+
+        await inventory.save();
+
+        res.status(200).json({ msg: 'Miss history updated successfully', missHistory: inventory.missHistory });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+};  
 
 module.exports = {
   registerDonor,
   loginDonor,
   registerClothes,
   getCitiesWithInventories,
+  handleHistory
 };
