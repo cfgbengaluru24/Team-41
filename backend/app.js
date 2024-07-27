@@ -1,14 +1,18 @@
 require('dotenv').config();
 require('express-async-errors');
+import mongoose from 'mongoose';
+import studentRoutes from './routes/studentRoutes.js';
 
 const express = require('express');
 const app = express();
 
-// other packages
+app.use(express.json());
+
+app.use('/students', studentRoutes);
+
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
 
-//db
 const connectDB = require('./db/connect');
 
 //middlewares
@@ -27,10 +31,6 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET,  
 });
 
-//routes
-
-
-// using middlewares
 app.use(cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
