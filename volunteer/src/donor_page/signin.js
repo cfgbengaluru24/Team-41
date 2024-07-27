@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import './SignInForm.css';
+import { useNavigate } from 'react-router-dom';
+import '../volunteer_page/SignInForm.css';
 
-function SignInForm() {
+function DonorSignInForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,7 +17,13 @@ function SignInForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    const { email, password } = formData;
+
+    if (email === 'admin@gmail.com' && password === 'admin') {
+      navigate('/donor-dashboard', { state: { donorId: '66a50d11a02dadd800ffda42' } });
+    } else {
+      alert('Invalid credentials');
+    }
   };
 
   return (
@@ -35,4 +44,4 @@ function SignInForm() {
   );
 }
 
-export default SignInForm;
+export default DonorSignInForm;
