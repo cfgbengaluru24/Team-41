@@ -31,7 +31,14 @@ const store_manager=new mongoose.Schema({
     },
     inventoryDetails:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'inventory'
+        ref:'inventory',
+        capacity:[
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'clothes',
+                maxcapacity:Number,
+            }
+        ]
     }
 });
 export default mongoose.model('store_manager',store_manager);

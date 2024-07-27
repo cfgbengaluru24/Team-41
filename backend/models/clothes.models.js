@@ -33,7 +33,6 @@ const clothes = new mongoose.Schema({
     },
     space:{
         type: Boolean,
-        required: true,
     }
 });
 module.exports = mongoose.model('clothes', clothes);
