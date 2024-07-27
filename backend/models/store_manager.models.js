@@ -30,25 +30,10 @@ const storeManagerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  inventoryDetails: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'clothes'
-    }
-  ],
-  maxCapacityDetails: [
-    {
-      clothType: {
-        type: String,
-        enum: ['jeans', 'saree', 'top', 'footwear', 'others'],
-        required: true
-      },
-      maxCapacity: {
-        type: Number,
-        required: [true, 'Please provide the maximum capacity for the cloth type']
-      }
-    }
-  ]
+  inventory:{
+    type:mongoose.Schema.ObjectId,
+    ref:'inventory',
+  }
 });
 
 const StoreManager = mongoose.model('store_manager', storeManagerSchema);
