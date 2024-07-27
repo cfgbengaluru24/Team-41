@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./App.css";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import SignUpForm from "./volunteer_page/SignUpForm";
 import SignInForm from "./volunteer_page/SignInForm";
@@ -25,6 +26,10 @@ root.render(
         <Route path="/donor" element={<DonorSignInForm />} />
         <Route path="/donor-dashboard" element={<DonorDashboard />} />
         <Route path="/admin" element={<AdminMain />} />
+        <Route
+          path="storemanagerdash"
+          element={<StoreManager></StoreManager>}
+        ></Route>
       </Routes>
     </Router>
   </React.StrictMode>
