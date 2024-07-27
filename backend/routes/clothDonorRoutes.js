@@ -5,5 +5,6 @@ const {registerClothes,loginDonor,registerDonor} = require('../controllers/cloth
 
 router.route('/registerDonor').post(registerDonor);
 router.route('/loginDonor').post(loginDonor);
+router.route('/registerClothes').post(registerClothes);
 
 module.exports = router;
