@@ -41,5 +41,17 @@ const inventory = new mongoose.Schema({
       }
     }
   ],
+  missHistory:[{
+    clothType: {
+      type: String,
+      enum: ['jeans', 'saree', 'top', 'footwear', 'others'],
+      required: true
+    },
+    missedTimes: {
+      type: Number,
+      default:0,
+      required:true
+    }
+  }]
 });
 module.exports = mongoose.model("inventory", inventory);
