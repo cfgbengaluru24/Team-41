@@ -1,8 +1,9 @@
 import Students from '../models/studentsModel.js';
 
+// Get all students, sorted by indexNumber in descending order
 export const getAllStudents = async (req, res) => {
   try {
-    const students = await Students.find();
+    const students = await Students.find().populate('enrolledBy', 'name amount').sort({ indexNumber: -1 });
     res.status(200).json(students);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,7 +13,7 @@ export const getAllStudents = async (req, res) => {
 // Get student by ID
 export const getStudentById = async (req, res) => {
   try {
-    const student = await Students.findById(req.params.id);
+    const student = await Students.findById(req.params.id).populate('enrolledBy', 'name amount');
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
@@ -24,13 +25,19 @@ export const getStudentById = async (req, res) => {
 
 // Create new student
 export const createStudent = async (req, res) => {
-  const { fullName, age, class: studentClass, annualIncome } = req.body;
+  const { fullName, age, class: studentClass, annualIncome, isFunded, state, enrolledBy, enrolledFrom, fundedFrom, gender } = req.body;
 
   const newStudent = new Students({
     fullName,
     age,
     class: studentClass,
-    annualIncome
+    annualIncome,
+    isFunded,
+    state,
+    enrolledBy,
+    enrolledFrom,
+    fundedFrom,
+    gender
   });
 
   try {
@@ -44,12 +51,12 @@ export const createStudent = async (req, res) => {
 // Update student by ID
 export const updateStudent = async (req, res) => {
   const { id } = req.params;
-  const { fullName, age, class: studentClass, annualIncome } = req.body;
+  const { fullName, age, class: studentClass, annualIncome, isFunded, state, enrolledBy, enrolledFrom, fundedFrom, gender } = req.body;
 
   try {
     const updatedStudent = await Students.findByIdAndUpdate(
       id,
-      { fullName, age, class: studentClass, annualIncome },
+      { fullName, age, class: studentClass, annualIncome, isFunded, state, enrolledBy, enrolledFrom, fundedFrom, gender },
       { new: true }
     );
 
