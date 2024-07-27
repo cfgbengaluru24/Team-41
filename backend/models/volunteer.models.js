@@ -28,13 +28,14 @@ const volunteerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    location: {
+    address: {
         type: String,
         required: true
     },
-    schools: [
+    studentsApproved :[
         {
-            type: String
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Students'
         }
     ]
 });

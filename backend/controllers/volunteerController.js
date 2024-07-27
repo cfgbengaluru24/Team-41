@@ -1,6 +1,7 @@
 import Students from '../models/volunteerModel.js';
 import Volunteer from '../models/volunteer.models.js';
 
+getAllStudents , createStudent ,getSingleStudent, removeStudent
 export const getAllStudents = async (req, res) => {
   try {
     const students = await Students.find();
@@ -24,19 +25,22 @@ export const getStudentById = async (req, res) => {
 };
 
 // Create new student
+//name,age,class,annualIncome,isFunded,state,gender
 export const createStudent = async (req, res) => {
-  const { fullName, age, class: studentClass, annualIncome } = req.body;
+  const { name, age, class:studentClass , annualIncome ,state,gender} = req.body;
 
   const newStudent = new Students({
-    fullName,
+    name,
     age,
     class: studentClass,
-    annualIncome
+    annualIncome,
+    state,
+    gender,
   });
 
   try {
     const savedStudent = await newStudent.save();
-    res.status(201).json(savedStudent);
+    res.status(201).json({savedStudent});
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
