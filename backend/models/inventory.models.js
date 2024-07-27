@@ -24,20 +24,22 @@ const inventory = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "store_manager",
   },
-  
-  clothesDetails: [
+  inventoryDetails: [{
+    type:mongoose.Schema.ObjectId,
+    ref : 'clothes'
+  }],
+  maxCapacityDetails: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "clothes",
-      currentCapacity: Number,
-    },
-  ],
-  clothesMaxCapacity:[
-    {
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'clothes',
-      maxCapacity:Number
+      clothType: {
+        type: String,
+        enum: ['jeans', 'saree', 'top', 'footwear', 'others'],
+        required: true
+      },
+      maxCapacity: {
+        type: Number,
+        required: [true, 'Please provide the maximum capacity for the cloth type']
+      }
     }
-  ]
+  ],
 });
 module.exports = mongoose.model("inventory", inventory);
