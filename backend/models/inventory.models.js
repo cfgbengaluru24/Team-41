@@ -29,8 +29,15 @@ const inventory = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "clothes",
-      maxcapacity: Number,
+      currentCapacity: Number,
     },
   ],
+  clothesMaxCapacity:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'clothes',
+      maxCapacity:Number
+    }
+  ]
 });
 export default mongoose.model("inventory", inventory);
