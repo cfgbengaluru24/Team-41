@@ -1,5 +1,6 @@
 const StoreManager = require('../models/store_manager.models');
 const Inventory = require('../models/inventory.models');
+const Clothes = require('../models/clothes.models');
 
 // Registration function
 const registerStoreManager = async (req, res) => {
@@ -75,7 +76,22 @@ const NotifyUsers = async(req,res)=>{
 
 }
 
+const updateClothStatus  = async(req,res)=>{
+  const {clothId} = req.body;
+
+  const cloth = await Clothes.findById(clothId);
+  if(!cloth){
+    res.status(404).json({message : "Cloth not found"});
+  }
+
+  cloth.donatedStatus= true;
+  await cloth.save();
+
+  res.status(200).json({message : "Successfully donated the cloth",cloth});
+}
+
 module.exports = {
   registerStoreManager,
-  loginStoreManager
+  loginStoreManager,
+  updateClothStatus,
 };

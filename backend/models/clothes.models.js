@@ -37,6 +37,9 @@ const clothes = new mongoose.Schema({
   description : {
     type:String,
     default : `${this.clothType} of size ${this.size} is available`,
+  },
+  isAssignedToStore :{
+    type:Boolean,
   }
 });
 module.exports = mongoose.model("clothes", clothes);

@@ -78,6 +78,7 @@ const registerClothes = async (req, res) => {
       if (currentInventoryCount >= maxCapacityDetail.maxCapacity) {
         // Inventory is full for this cloth type, add to notifications
         inventory.notifications.push({ clothType, donorId, clothId: newCloth._id });
+        newCloth.isAssignedToStore = false;
         await inventory.save();
         await newCloth.save();
         donor.clothDetails = [...donor.clothDetails, newCloth._id];
@@ -87,9 +88,10 @@ const registerClothes = async (req, res) => {
       }
   
       // Update the donatedStatus to true as it can be assigned to the inventory
-      newCloth.donatedStatus = true;
+      // newCloth.donatedStatus = true;
+      newCloth.isAssignedToStore = true;
       await newCloth.save();
-
+      
       donor.clothDetails = [...donor.clothDetails, newCloth._id];
       await donor.save();
 
@@ -184,18 +186,33 @@ const resetMissHistory = async (req, res) => {
   }
 };
 
-const updateClothStatus  = async(req,res)=>{
-  const {clothId} = req.body;
+const reRequestCloth = async(req,res)=>{
+    const {clothId} = req.body;
 
-  const cloth = await Clothes.findById(clothId);
-  if(!cloth){
-    res.status(404).json({message : "Cloth not found"});
-  }
+    const cloth = await Clothes.findById(clothId);
+    if(!cloth){
+        return res.status(404).json({msg : "Cloth not found"});
+    }
 
-  cloth.donatedStatus= true;
-  await cloth.save();
+    const inventory = await Inventory.findById(cloth.donatedTo);
 
-  res.status(200).json({message : "Successfully donated the cloth"});
+    if(!inventory){
+        return res.status(404).json({msg : "Inventory not found"});
+    }
+
+    const maxCapacityDetail = inventory.maxCapacityDetails.find(detail => detail.clothType === cloth.clothType);
+    const currentInventoryCount = inventory.inventoryDetails.filter(detail => detail.clothType === cloth.clothType).length;
+
+    if(currentInventoryCount>= maxCapacityDetail.maxCapacity){
+        return res.status(400).json({msg : "Inventory is full for this cloth typ you will be updated as soon as we have space"});
+    }
+
+    inventory.inventoryDetails.push(clothId);
+    cloth.isAssignedToStore = true;
+    await cloth.save();
+    await inventory.save();
+
+    return res.status(200).status({msg : "Cloth added to inventory successfully",cloth});
 }
 
 module.exports = {
@@ -205,5 +222,5 @@ module.exports = {
   getCitiesWithInventories,
   handleHistory,
   resetMissHistory,
-  updateClothStatus,
+  reRequestCloth
 };

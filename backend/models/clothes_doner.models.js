@@ -30,7 +30,7 @@ const clothes_doner = new mongoose.Schema({
     clothDetails: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'clothes',
-    }]
+    }],
 });
 
 module.exports = mongoose.model('clothes_doner', clothes_doner);
