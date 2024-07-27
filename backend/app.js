@@ -3,7 +3,7 @@ const app = express();
 require('dotenv').config();
 const connectDB = require('./db/connect');
 const studentRoutes = require('./routes/studentRoutes');
-const donorRoutes = require('./routes/donorRoutes');
+const donorRoutes = require('./routes/money_donor')
 
 app.use(express.json());
 

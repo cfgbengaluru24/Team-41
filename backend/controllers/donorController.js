@@ -1,7 +1,7 @@
-import Donors from '../models/money_donorModel.js';
+const Donors = require('../models/money_donorModel.js');
 
 // Get all donors
-export const getAllDonors = async (req, res) => {
+const getAllDonors = async (req, res) => {
   try {
     const donors = await Donors.find().populate('fundingTo', 'fullName age class');
     res.status(200).json(donors);
@@ -11,7 +11,7 @@ export const getAllDonors = async (req, res) => {
 };
 
 // Get donor by ID
-export const getDonorById = async (req, res) => {
+const getDonorById = async (req, res) => {
   try {
     const donor = await Donors.findById(req.params.id).populate('fundingTo', 'fullName age class');
     if (!donor) {
@@ -24,7 +24,7 @@ export const getDonorById = async (req, res) => {
 };
 
 // Create new donor
-export const createDonor = async (req, res) => {
+const createDonor = async (req, res) => {
   const { name, amount, fundingTo } = req.body;
 
   const newDonor = new Donors({
@@ -42,7 +42,7 @@ export const createDonor = async (req, res) => {
 };
 
 // Update donor by ID
-export const updateDonor = async (req, res) => {
+const updateDonor = async (req, res) => {
   const { id } = req.params;
   const { name, amount, fundingTo } = req.body;
 
@@ -64,7 +64,7 @@ export const updateDonor = async (req, res) => {
 };
 
 // Delete donor by ID
-export const deleteDonor = async (req, res) => {
+const deleteDonor = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -78,4 +78,12 @@ export const deleteDonor = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+module.exports = {
+  getAllDonors,
+  getDonorById,
+  createDonor,
+  updateDonor,
+  deleteDonor
 };

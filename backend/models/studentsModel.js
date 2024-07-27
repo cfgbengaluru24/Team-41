@@ -65,4 +65,4 @@ studentSchema.index({ gender: 1, indexNumber: -1 });
 
 const Students = mongoose.model("Students", studentSchema);
 
-export default Students;
+module.exports = Students;
