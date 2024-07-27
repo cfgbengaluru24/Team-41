@@ -88,8 +88,28 @@ const registerClothes = async (req, res) => {
     }
   };
 
+  const getCitiesWithInventories = async (req, res) => {
+    try {
+      const cities = await Inventory.distinct('city');
+      const cityInventories = await Promise.all(
+        cities.map(async (city) => {
+          const inventories = await Inventory.find({ city }).select('name address phone state');
+          return {
+            city,
+            inventories
+          };
+        })
+      );
+  
+      res.status(200).json(cityInventories);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };  
+
 module.exports = {
   registerDonor,
   loginDonor,
-  registerClothes
+  registerClothes,
+  getCitiesWithInventories,
 };
