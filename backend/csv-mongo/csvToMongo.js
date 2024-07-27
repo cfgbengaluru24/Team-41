@@ -27,7 +27,6 @@ async function csvToMongo() {
         class: item["Class"],
         annualIncome: parseInt(item["Annual Income"], 10),
       }));
-
       Students.insertMany(students)
         .then((docs) => {
           console.log("Data inserted successfully:", docs);
