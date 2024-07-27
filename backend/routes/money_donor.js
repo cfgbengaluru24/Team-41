@@ -1,11 +1,11 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
   getAllDonors,
   getDonorById,
   createDonor,
   updateDonor,
   deleteDonor
-} from '../controllers/donorController.js';
+} = require('../controllers/donorController');
 
 const router = express.Router();
 
@@ -15,4 +15,4 @@ router.post('/', createDonor);
 router.put('/:id', updateDonor);
 router.delete('/:id', deleteDonor);
 
-export default router;
+module.exports = router;
