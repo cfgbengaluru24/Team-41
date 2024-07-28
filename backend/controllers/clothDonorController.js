@@ -58,7 +58,7 @@ const registerClothes = async (req, res) => {
       }
 
       const inventory = await Inventory.findById(inventoryId).populate('inventoryDetails');
-      console.log(inventory);
+      // console.log(inventory);
       if (!inventory) {
         return res.status(404).json({ message: 'Inventory not found' });
       }
@@ -68,8 +68,8 @@ const registerClothes = async (req, res) => {
       // console.log(maxCapacityDetail);
       // console.log(currentInventoryCount);
 
-      console.log(maxCapacityDetail);
-      console.log(currentInventoryCount);
+      // console.log(maxCapacityDetail);
+      // console.log(currentInventoryCount);
       // console.log(inventory);
 
       // Create the new cloth with provided details
@@ -131,10 +131,11 @@ const registerClothes = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
-  const handleHistory = async (req, res,inventoryId,clothType) => {
+  const handleHistory = async (inventoryId,clothType) => {
     try {
         // console.log(req.body);
-
+        console.log(inventoryId);
+        console.log(clothType);
         const validClothTypes = ['jeans', 'saree', 'top', 'footwear', 'others'];
 
         if (!validClothTypes.includes(clothType)) {
@@ -145,21 +146,33 @@ const registerClothes = async (req, res) => {
         if (!inventory) {
             return ;
         }
-
+        console.log(inventory);
         let historyItem = inventory.missHistory.find(item => item.clothType === clothType);
 
-        if (historyItem) {
+        if(!historyItem){
+            historyItem = inventory.missHistory.push({
+              clothType,
+              missedTimes : 1,
+            })
+        }
+        else {
             historyItem.missedTimes += 1;
-        } else {
-            historyItem = inventory.missHistory.find(item => item.clothType === 'others');
-            if (historyItem) {
-                historyItem.missedTimes += 1;
-            } else {
-                inventory.missHistory.push({ clothType: 'others', missedTimes: 1 });
-            }
         }
 
         await inventory.save();
+        const currDate = new Date(Date.now());
+
+        // phone city state address
+        if(currDate.getDate() === 28 && historyItem.missedTimes > 1){
+          await sendEmail({to:'aitijhyasps1@gmail.com',subject : `Inventory Full`,html : `Inventory at address : ${inventory.address} is full for ${clothType} many times this month, you may need to upgrade the warehouse <br> <br>
+          <h1>Inventory Details</h1>
+          <p>Phone : ${inventory.phone}</p>
+          <p>City : ${inventory.city}</p>
+          <p>State : ${inventory.state}</p>
+          <p>Address : ${inventory.address}</p>
+            `});
+            console.log("Mail sent successfully");
+        }
 
         // res.status(200).json({ msg: 'Miss history updated successfully', missHistory: inventory.missHistory });
         return;
@@ -169,32 +182,6 @@ const registerClothes = async (req, res) => {
         // res.status(500).json({ msg: 'Server error' });
     }
 };  
-//TEST THIS FUNCTION AND ALSO CALL THIS FUNCTION AT A RELEVANT CODE POINT 
-const resetMissHistory = async (req, res) => {
-  try {
-      const today = new Date();
-      const isResetDate = today.getDate() === 1 && [0, 4, 8].includes(today.getMonth());
-
-      if (!isResetDate) {
-          return res.status(400).json({ msg: 'Not the reset date' });
-      }
-
-      const inventories = await Inventory.find();
-      
-      inventories.forEach(inventory => {
-          inventory.missHistory.forEach(historyItem => {
-              historyItem.missedTimes = 0;
-          });
-      });
-
-      await Promise.all(inventories.map(inventory => inventory.save()));
-
-      res.status(200).json(inventories);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ msg: 'Server error' });
-  }
-};
 
 const reRequestCloth = async(req,res)=>{
     const {clothId} = req.body;
@@ -231,6 +218,5 @@ module.exports = {
   registerClothes,
   getCitiesWithInventories,
   handleHistory,
-  resetMissHistory,
   reRequestCloth
 };
