@@ -1,0 +1,41 @@
+/* ClothingDonationCard.css */
+.donation-card {
+    padding: 15px;
+    margin: 20px;
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    background-color: #625da2;
+
+}
+
+.donation-card.pending {
+    border: 5px solid black
+    /* yellow for pending */
+}
+
+.donation-card.donated {
+    border: 5px solid black;
+    /* green for donated */
+}
+
+.donation-card:hover {
+    transform: scale(1.05);
+}
+
+.donation-card h4 {
+    background-color: #625da2;
+}
+
+.donation-card p{
+    background-color: #625da2;
+}
+
+.donation-card p:last-child{
+    margin: 5px;
+    background-color: rgb(59, 56, 56);
+    opacity: 0.8;
+    color: white;
+    padding: 5px;
+    border-radius: 10%;
+}

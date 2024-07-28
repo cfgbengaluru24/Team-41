@@ -68,3 +68,12 @@
     background-color: #ff8b94;
 }
 
+.donations-section{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap:wrap;
+    margin: 10px;
+}
+
