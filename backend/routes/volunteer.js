@@ -1,21 +1,8 @@
-import express from 'express';
-const mongoose = require('mongoose');
-import {
-  getAllStudents,
-  getStudentById,
-  createStudent,
-  updateStudent,
-  deleteStudent,
-  getAllVolunteers
-} from '../controllers/volunteerController.js';
-
+const express = require('express');
 const router = express.Router();
 
-router.get('/', getAllStudents);
-router.get('/:id', getStudentById);
-router.post('/', createStudent);
-router.put('/:id', updateStudent);
-router.delete('/:id', deleteStudent);
-router.get('/getAllVolunteers',getAllVolunteers)
+const {createStudent} = require('../controllers/volunteerController');
 
-export default router;
+router.route('/createStudent').post(createStudent);
+
+module.exports = router;

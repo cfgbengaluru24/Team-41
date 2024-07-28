@@ -12,11 +12,16 @@ const studentSchema = new mongoose.Schema({
     required: true,
   },
   class: {
-    type: String,
-    required: true,
+    type: Number,
+    required:true,
+    min : 1,
+  },
+  school : {
+    type:String,
+    required:true,
   },
   annualIncome: {
-    type: Number,
+    type: String,
     required: true,
   },
   isFunded: {
