@@ -1,17 +1,10 @@
 {
   "name": "frontend",
-<<<<<<< HEAD
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "ISC",
-  "description": ""
-=======
-  "version": "0.1.0",
-  "private": true,
+  "description": "",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -47,5 +40,4 @@
       "last 1 safari version"
     ]
   }
->>>>>>> frontend_clothes
 }
