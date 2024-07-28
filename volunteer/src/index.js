@@ -11,7 +11,9 @@ import SendMail from "../src/pages/SendMail";
 import Adminlogin from "../src/pages/adminlogin";
 import Admin from "../src/pages/admin";
 import Home from "../src/pages/home";
+import StoreManager from "./StoreManagerDashboard/StoreManagerDashboard";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import VolunteerDash from "./volunteer_page/VolunteerDashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,7 +26,15 @@ root.render(
         <Route path="/donor" element={<DonorSignInForm />} />
         <Route path="/donor-dashboard" element={<DonorDashboard />} />
         <Route path="/adminlogin" element={<Adminlogin />} />
-        <Route path="/admin" element={<Admin />} />
+        {/* <Route path="/admin" element={<Admin />} /> */}
+        <Route
+          path="/storemanagerdash"
+          element={<StoreManager></StoreManager>}
+        ></Route>
+        <Route
+          path="/volunteerdash"
+          element={<VolunteerDash></VolunteerDash>}
+        ></Route>
       </Routes>
     </Router>
   </React.StrictMode>
