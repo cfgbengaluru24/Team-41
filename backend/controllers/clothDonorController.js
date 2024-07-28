@@ -2,6 +2,7 @@ const ClothesDonor = require('../models/clothes_doner.models');
 const Inventory = require('../models/inventory.models');
 const Clothes = require('../models/clothes.models');
 const sendEmail = require('../utils/sendEmail');
+const CustomError = require('../middleware/error-handler');
 
 // Register a donor
 const registerDonor = async (req, res) => {
@@ -48,7 +49,7 @@ const loginDonor = async (req, res) => {
 //set up the status check , donatedOn has to be Date.now() clothType
 const registerClothes = async (req, res) => {
     const { donorId, inventoryId, clothType, description, size } = req.body;
-  
+    console.log(inventoryId);
     try {
 
       const donor = await ClothesDonor.findById(donorId);
@@ -56,15 +57,20 @@ const registerClothes = async (req, res) => {
         res.status(404).json({ message: 'Donor not found' });
       }
 
-      const inventory = await Inventory.findById(inventoryId);
+      const inventory = await Inventory.findById(inventoryId).populate('inventoryDetails');
+      console.log(inventory);
       if (!inventory) {
         return res.status(404).json({ message: 'Inventory not found' });
       }
 
       const maxCapacityDetail = inventory.maxCapacityDetails.find(detail => detail.clothType === clothType);
       const currentInventoryCount = inventory.inventoryDetails.filter(detail => detail.clothType === clothType).length;
+      // console.log(maxCapacityDetail);
+      // console.log(currentInventoryCount);
+
       console.log(maxCapacityDetail);
       console.log(currentInventoryCount);
+      // console.log(inventory);
 
       // Create the new cloth with provided details
       const newCloth = new Clothes({
@@ -85,7 +91,7 @@ const registerClothes = async (req, res) => {
         await newCloth.save();
         donor.clothDetails = [...donor.clothDetails, newCloth._id];
         await donor.save();
-        await handleHistory();
+        await handleHistory(inventoryId,clothType);
         return res.status(400).json({ message: 'Inventory is full for this cloth type. You will be updated as soon as we have space.', newCloth });
       }
   
@@ -101,6 +107,7 @@ const registerClothes = async (req, res) => {
       await inventory.save();
   
       res.status(201).json(newCloth);
+      // res.status(201).json({"msg" : "Hello"})
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -124,10 +131,9 @@ const registerClothes = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
-  const handleHistory = async (req, res) => {
+  const handleHistory = async (req, res,inventoryId,clothType) => {
     try {
-        const { id } = req.body;
-        let { clothType } = req.body;
+        // console.log(req.body);
 
         const validClothTypes = ['jeans', 'saree', 'top', 'footwear', 'others'];
 
@@ -135,9 +141,9 @@ const registerClothes = async (req, res) => {
             clothType = 'others';
         }
 
-        const inventory = await Inventory.findById(id);
+        const inventory = await Inventory.findById(inventoryId);
         if (!inventory) {
-            return res.status(404).json({ msg: 'Inventory item not found' });
+            return ;
         }
 
         let historyItem = inventory.missHistory.find(item => item.clothType === clothType);
@@ -155,10 +161,12 @@ const registerClothes = async (req, res) => {
 
         await inventory.save();
 
-        res.status(200).json({ msg: 'Miss history updated successfully', missHistory: inventory.missHistory });
+        // res.status(200).json({ msg: 'Miss history updated successfully', missHistory: inventory.missHistory });
+        return;
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Server error' });
+        throw new Error('Error');
+        // res.status(500).json({ msg: 'Server error' });
     }
 };  
 //TEST THIS FUNCTION AND ALSO CALL THIS FUNCTION AT A RELEVANT CODE POINT 

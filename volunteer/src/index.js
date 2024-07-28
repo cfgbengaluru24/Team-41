@@ -25,7 +25,8 @@ root.render(
         <Route path="/signin" element={<SignInForm />} />
         <Route path="/donor" element={<DonorSignInForm />} />
         <Route path="/donor-dashboard" element={<DonorDashboard />} />
-        {/* <Route path="/admin" element={<AdminMain />} /> */}
+        <Route path="/adminlogin" element={<Adminlogin />} />
+        {/* <Route path="/admin" element={<Admin />} /> */}
         <Route
           path="/storemanagerdash"
           element={<StoreManager></StoreManager>}

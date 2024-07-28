@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Donors = require('./money_donorModel');  
 
+//fullName,age,class,annualIncome,isFunded,state,gender
 const studentSchema = new mongoose.Schema({
-  fullName: {
+  name: {
     type: String,
     required: true,
   },
@@ -11,29 +12,30 @@ const studentSchema = new mongoose.Schema({
     required: true,
   },
   class: {
-    type: String,
-    required: true,
+    type: Number,
+    required:true,
+    min : 1,
+  },
+  school : {
+    type:String,
+    required:true,
   },
   annualIncome: {
-    type: Number,
+    type: String,
     required: true,
   },
   isFunded: {
     type: Boolean,
-    required: true,
+    default:false,
   },
   state: {
     type: String,
     required: true,
   },
-  enrolledBy: [{
+  fundedBy: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Donors'
   }],
-  fundedFrom: {
-    type: Date,
-    required: true,
-  },
   gender: {
     type: String,
     required: true,
